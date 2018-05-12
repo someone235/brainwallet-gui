@@ -6,7 +6,7 @@ export default class extends Component {
     return (
       <div>
         <TextWithQRCode qrText={this.props.xpub}>
-          <span style={{ fontSize: 30, fontWeight: 600 }}>ZPUB</span> <textarea rows={1} cols={111} disabled>{this.props.xpub}</textarea>
+          <span style={{ fontSize: 30, fontWeight: 600 }}>View ZPUB</span>
         </TextWithQRCode>
       </div>
     );

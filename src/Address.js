@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
-import QRCode from 'qrcode.react';
+import eye from './img/eye_icon_round@2x.png';
+import TextWithQRCode from './TextWithQRCode';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
-import QRIcon from './img/QR_icon.png';
+import QRCode from 'qrcode.react';
+
+
+const brainwallet = window.require('brainwallet');
 
 
 export default class extends Component {
@@ -26,8 +30,8 @@ export default class extends Component {
   handleCancelConfirm = () => {
     this.setState({ openConfirm: false });
   };
-
   render() {
+    const addr = brainwallet.toBech32(this.props.keypair.getPublicKeyBuffer());
     const actions = [
       <FlatButton
         label="Close"
@@ -47,10 +51,12 @@ export default class extends Component {
         onClick={this.handleCancelConfirm}
       />,
     ];
+    const privKey = `p2wpkh:${this.props.keypair.toWIF()}`;
     return (
-      <div style={{ display: 'inline-block' }}>
+      <div key={addr} style={{ marginBottom: 10 }}>
         <Dialog
-          title=""
+          titleStyle={{ textAlign: "center" }}
+          title="Private Key"
           actions={actions}
           modal={false}
           open={this.state.openPrivate}
@@ -59,37 +65,25 @@ export default class extends Component {
           <div style={{
             textAlign: 'center'
           }}>
-            <div style={{ fontSize: 30, fontWeight: 600, marginBottom: 10 }}>Brain Seed</div>
-            <div style={{ marginBottom: 50, fontSize: 18, wordSpacing: 20 }}>{this.props.mnemonic}</div>
-            <div style={{ fontSize: 30, fontWeight: 600, marginBottom: 10 }}>Salt</div>
-            <div style={{ marginBottom: 50, fontSize: 18 }}>{this.props.salt}</div>
-            {/* <div ><span style={{ fontSize: 30, fontWeight: 600 }}>Mnemonic</span>: {this.props.mnemonic}</div> */}
-            <div style={{ fontSize: 30, fontWeight: 600, marginBottom: 10 }}>ZPRV</div>
-            <div style={{ marginBottom: 10 }}><textarea rows={2} cols={56} disabled key={this.props.xprv}>{this.props.xprv}</textarea></div>
-            <div><QRCode value={this.props.xprv} /></div>
+            <div style={{ marginBottom: 10 }}><textarea rows={1} cols={60} disabled key={privKey}>{privKey}</textarea></div>
+            <div><QRCode value={privKey} /></div>
           </div>
         </Dialog>
         <Dialog
-          titleStyle={{ textAlign: "center" }}
-          title="You're about to reveal your Brain Seed"
+          title="You're about to reveal your address' private key"
           actions={confirmActions}
           modal={false}
           open={this.state.openConfirm}
           onRequestClose={this.handleCancelConfirm}
         >
-          Whoever gets these few words have full control over any funds you'll hold in your brain wallet.<br />
+          Whoever gets this key will have full control over any funds you'll hold in this address.<br />
           please triple check your device is trusted, you have no one behind you and no cameras are pointed at your screen or or even at your glasses.
         </Dialog>
-        <div>
-          <RaisedButton
-            label={"Show me my brain seed"}
-            onClick={this.handleOpenConfirm}
-            backgroundColor="#14A6B0"
-            style={{ margin: 10 }}
-          />
-          {/* <img onClick={this.handleOpenConfirm} src={QRIcon} style={{ display: 'inline-block', marginLeft: 10, marginRight: 10, cursor: 'pointer' }} /> */}
-          {/* Click here to see mnemonic and zprv */}
-        </div>
+        <span style={{ fontSize: 30, fontWeight: 600 }}>{this.props.i}</span>.
+        <TextWithQRCode text={addr} qrText={`bitcoin:${addr}`} >
+          <span style={{ fontSize: 18 }}>{addr}</span>
+        </TextWithQRCode>
+        <div style={{ marginLeft: 65 }}>Show private key: <img src={eye} style={{ width: 20, cursor: 'pointer' }} onClick={this.handleOpenConfirm} /></div>
       </div>
     );
   }
