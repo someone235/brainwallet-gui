@@ -3,4 +3,5 @@
 In order to run, execute these commands:
 
     npm install
-    npm run dev
+    npm run build
+    npm run electron
