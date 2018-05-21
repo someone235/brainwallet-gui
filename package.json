@@ -4,18 +4,13 @@
   "private": true,
   "main": "src/electron-starter.js",
   "dependencies": {
-    "bcoin": "^1.0.0-beta.15",
     "bitcoinjs-lib": "^3.3.2",
     "brainwallet": "git+https://github.com/someone235/brainwallet.git",
     "material-ui": "^0.20.0",
     "qrcode.react": "^0.8.0",
     "react": "^16.3.2",
-    "react-bitcoin-qr": "0.0.3",
     "react-dom": "^16.3.2",
-    "react-qr": "0.0.2",
-    "react-scripts": "1.1.4",
-    "scrypt": "^6.0.3",
-    "unorm": "^1.4.1"
+    "react-scripts": "1.1.4"
   },
   "scripts": {
     "start": "cross-env BROWSER=none react-scripts start",
