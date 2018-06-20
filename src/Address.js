@@ -5,9 +5,11 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import QRCode from 'qrcode.react';
+import brainwallet from 'brainwallet';
 
 
-const brainwallet = window.require('brainwallet');
+
+// const brainwallet = window.require('brainwallet');
 
 
 export default class extends Component {
@@ -81,7 +83,7 @@ export default class extends Component {
         </Dialog>
         <span style={{ fontSize: 30, fontWeight: 600 }}>{this.props.i}</span>.
         <TextWithQRCode text={addr} qrText={`bitcoin:${addr}`} >
-          <span style={{ fontSize: 18 }}>{addr}</span>
+          <span style={{ fontSize: 18, display: 'inline-block', wordWrap: 'break-word', width: '21vw', minWidth: 250 }}>{addr}</span>
         </TextWithQRCode>
         <div style={{ marginLeft: 65 }}>Show private key: <img src={eye} style={{ width: 20, cursor: 'pointer' }} onClick={this.handleOpenConfirm} /></div>
       </div>

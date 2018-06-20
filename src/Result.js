@@ -4,7 +4,9 @@ import Xpub from './Xpub';
 import PrivateStuff from './PrivateStuff';
 import Address from './Address';
 import bitcoinLogo from './img/bitcoin-2546854_640.png';
-const brainwallet = window.require('brainwallet');
+import brainwallet from 'brainwallet';
+
+// const brainwallet = window.require('brainwallet');
 
 export default class extends Component {
   render() {
@@ -28,8 +30,10 @@ export default class extends Component {
         </div>
         <div style={{ width: '100%', margin: 'auto' }}>
           <div style={{ margin: 'auto' }}>{addresses.length ? <div style={{ fontWeight: 600, fontSize: 26, marginBottom: 10 }}><img src={bitcoinLogo} style={{ width: 25 }} /> Addresses:</div> : ''}</div>
-          <div style={{ display: 'inline-block' }}>{addresses.slice(0, 5)}</div>
-          <div style={{ display: 'inline-block', float: 'right' }}>{addresses.slice(5, 10)}</div>
+          <div style={{ display: 'flex', flexWrap: true }}>
+            <div style={{ display: 'inline-block', flex: 1 }}>{addresses.slice(0, 5)}</div>
+            <div style={{ display: 'inline-block', flex: 1 }}>{addresses.slice(5, 10)}</div>
+          </div>
         </div>
       </div>
     );
