@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 import Header from './Header';
 import Description from './Description';
 import './App.css';
-import QRCode from 'qrcode.react';
 import RaisedButton from 'material-ui/RaisedButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import TextField from 'material-ui/TextField';
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
-import TextWithQRCode from './TextWithQRCode';
 import Result from './Result';
 import loading from './img/loading.gif';
+import bip39 from 'bip39';
 const brainwallet = window.require('brainwallet');
+const brainseedUtils = window.require('brainseed-utils');
 const { HDNode } = require('bitcoinjs-lib');
 
 const DEFAULT_NUMBER_OF_WORDS = 6;
@@ -22,15 +22,17 @@ class App extends Component {
     numberOfWords: DEFAULT_NUMBER_OF_WORDS,
   };
   generate = async () => {
-    console.log('number', this.state.numberOfWords || DEFAULT_NUMBER_OF_WORDS);
     let mnemonic = this.state.mnemonic;
-    let privKey;
+    let privKey, bip39Mnemonic;
+    console.log('number', this.state.numberOfWords || DEFAULT_NUMBER_OF_WORDS);
     this.setState({ loading: true, addresses: [], mnemonicDiv: null, xpub: null, xprv: null });
     if (mnemonic) {
-      privKey = await brainwallet.generateFromMnemonic(mnemonic, this.state.salt);
+      bip39Mnemonic = await brainseedUtils.mnemonicToBip39Mnemonic(mnemonic, this.state.salt);
     } else {
-      ({ privKey, mnemonic } = await brainwallet.generate(this.state.version, this.state.salt, this.state.numberOfWords || DEFAULT_NUMBER_OF_WORDS));
+      mnemonic = brainseedUtils.generateMnemonic(this.state.version, this.state.numberOfWords || DEFAULT_NUMBER_OF_WORDS);
+      bip39Mnemonic = await brainseedUtils.mnemonicToBip39Mnemonic(mnemonic, this.state.salt);
     }
+    privKey = await bip39.mnemonicToSeed(bip39Mnemonic);
     this.setState({ loading: false });
     console.log('privKey', privKey.toString('hex'));
     var m = HDNode.fromSeedHex(privKey.toString('hex'));
@@ -45,7 +47,7 @@ class App extends Component {
     // for (let i = 0; i < 10; i++) {
     //   console.log(`address ${i + 1}`, child.derive(i).getAddress());
     // }
-    this.setState({ mnemonicDiv: mnemonic, addresses, xpub, xprv });
+    this.setState({ mnemonicDiv: mnemonic, addresses, xpub, xprv, bip39Mnemonic });
   };
   onMnemonicChange = e => {
     const mnemonic = e.target.value;
@@ -128,7 +130,7 @@ class App extends Component {
               </div>
             </div>
             {this.state.addresses.length ? <hr /> : ''}
-            {this.state.addresses.length ? <Result salt={this.state.salt} xprv={this.state.xprv} mnemonicDiv={this.state.mnemonicDiv} xpub={this.state.xpub} addresses={this.state.addresses} /> : ''}
+            {this.state.addresses.length ? <Result salt={this.state.salt} xprv={this.state.xprv} mnemonicDiv={this.state.mnemonicDiv} bip39Mnemonic={this.state.bip39Mnemonic} xpub={this.state.xpub} addresses={this.state.addresses} /> : ''}
           </div>
         </div>
       </MuiThemeProvider>

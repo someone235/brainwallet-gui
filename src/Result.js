@@ -23,7 +23,7 @@ export default class extends Component {
     return (
       <div>
         <div style={{ width: 300, margin: 'auto' }}>
-          <PrivateStuff salt={this.props.salt} mnemonic={this.props.mnemonicDiv} xprv={this.props.xprv} />
+          <PrivateStuff salt={this.props.salt} mnemonic={this.props.mnemonicDiv} xprv={this.props.xprv} bip39Mnemonic={this.props.bip39Mnemonic} />
           {/* <div>{this.props.mnemonicDiv}</div> */}
           {this.props.xpub && <Xpub xpub={this.props.xpub} />}
         </div>

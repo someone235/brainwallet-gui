@@ -61,6 +61,8 @@ export default class extends Component {
           }}>
             <div style={{ fontSize: 30, fontWeight: 600, marginBottom: 10 }}>Brain Seed</div>
             <div style={{ marginBottom: 50, fontSize: 18, wordSpacing: 20 }}>{this.props.mnemonic}</div>
+            <div style={{ fontSize: 30, fontWeight: 600, marginBottom: 10 }}>BIP39 Compatible Seed</div>
+            <div style={{ marginBottom: 50, fontSize: 18, wordSpacing: 20 }}>{this.props.bip39Mnemonic}</div>
             <div style={{ fontSize: 30, fontWeight: 600, marginBottom: 10 }}>Salt</div>
             <div style={{ marginBottom: 50, fontSize: 18 }}>{this.props.salt}</div>
             {/* <div ><span style={{ fontSize: 30, fontWeight: 600 }}>Mnemonic</span>: {this.props.mnemonic}</div> */}
