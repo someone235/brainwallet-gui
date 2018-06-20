@@ -4,9 +4,8 @@ import Xpub from './Xpub';
 import PrivateStuff from './PrivateStuff';
 import Address from './Address';
 import bitcoinLogo from './img/bitcoin-2546854_640.png';
-import brainwallet from 'brainwallet';
 
-// const brainwallet = window.require('brainwallet');
+const brainwallet = window.require('brainwallet');
 
 export default class extends Component {
   render() {

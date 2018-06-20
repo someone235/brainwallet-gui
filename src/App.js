@@ -10,8 +10,7 @@ import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 import TextWithQRCode from './TextWithQRCode';
 import Result from './Result';
 import loading from './img/loading.gif';
-import brainwallet from 'brainwallet';
-// const brainwallet = window.require('brainwallet');
+const brainwallet = window.require('brainwallet');
 const { HDNode } = require('bitcoinjs-lib');
 
 const DEFAULT_NUMBER_OF_WORDS = 6;
@@ -67,63 +66,65 @@ class App extends Component {
       <MuiThemeProvider>
         <div>
           <Header />
-          <div style={{ paddingRight: '10vw', paddingLeft: '10vw', paddingTop: 50, fontColor: '#484848', display: 'flex', flexWrap: 'wrap' }}>
-            <div style={{ flex: 1, margin: 10 }}>
-              <Description />
-            </div>
-            <div style={{ flex: 1, margin: 10 }}>
-              <div style={{ margin: 'auto' }}>
-                <div><TextField floatingLabelText="Salt" hintText="Usually email" value={this.state.salt} onChange={e => this.setState({ salt: e.target.value })} /></div>
-                <div><TextField style={{ width: 100 }} disabled={this.state.mnemonic} floatingLabelText="No. of words" value={this.state.numberOfWords} onChange={e => this.setState({ numberOfWords: Number(e.target.value) })} /></div>
-                <div><TextField floatingLabelText="Mnemonic" multiLine={true} rows={2} value={this.state.mnemonic} onChange={this.onMnemonicChange} /></div>
-                <div>
-                  <RadioButtonGroup valueSelected={this.state.version} onChange={e => this.setState({ version: Number(e.target.value) })}>
-                    <RadioButton
-                      value={0}
-                      label="Normal (3 seconds)"
-                      style={{
-                        marginBottom: 16,
-                      }}
-                    />
-                    <RadioButton
-                      value={1}
-                      label="Hard (30 seconds)"
-                      style={{
-                        marginBottom: 16,
-                      }}
-                      disabled={this.state.mnemonic}
-                    />
-                    <RadioButton
-                      value={2}
-                      label="Brutal (1 Hour)"
-                      style={{
-                        marginBottom: 16,
-                      }}
-                      disabled={this.state.mnemonic}
-                    />
-                  </RadioButtonGroup>
-                </div>
-                {/* <div><Slider value={this.state.version} max={2} onChange={e => this.setState({ version: Number(e.target.value) })} step={1} /></div> */}
-                {/* <div><input type="range" value={this.state.version} max={2} onChange={e => this.setState({ version: Number(e.target.value) })} /></div> */}
-                <RaisedButton
-                  label={"Generate new seed"}
-                  onClick={this.generate}
-                  backgroundColor="#14A6B0"
-                  style={{ margin: 5 }}
-                  disabled={this.state.loading || !(this.state.salt && this.state.numberOfWords)}
-                />
-                <RaisedButton
-                  label={"Recover existing seed"}
-                  onClick={this.generate}
-                  backgroundColor="#14A6B0"
-                  style={{ margin: 5 }}
-                  disabled={this.state.loading || !(this.state.salt && this.state.mnemonicValid)}
-                />
-                {this.state.loading && <img style={{ width: 50 }} src={loading} />}
-                {/* <div>{this.state.mnemonicDiv}</div>
+          <div style={{ paddingRight: '10vw', paddingLeft: '10vw', paddingTop: 50, fontColor: '#484848', }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+              <div style={{ flex: 1, margin: 10 }}>
+                <Description />
+              </div>
+              <div style={{ flex: 1, margin: 10 }}>
+                <div style={{ margin: 'auto' }}>
+                  <div><TextField floatingLabelText="Salt" hintText="Usually email" value={this.state.salt} onChange={e => this.setState({ salt: e.target.value })} /></div>
+                  <div><TextField style={{ width: 100 }} disabled={this.state.mnemonic} floatingLabelText="No. of words" value={this.state.numberOfWords} onChange={e => this.setState({ numberOfWords: Number(e.target.value) })} /></div>
+                  <div><TextField floatingLabelText="Mnemonic" multiLine={true} rows={2} value={this.state.mnemonic} onChange={this.onMnemonicChange} /></div>
+                  <div>
+                    <RadioButtonGroup valueSelected={this.state.version} onChange={e => this.setState({ version: Number(e.target.value) })}>
+                      <RadioButton
+                        value={0}
+                        label="Normal (3 seconds)"
+                        style={{
+                          marginBottom: 16,
+                        }}
+                      />
+                      <RadioButton
+                        value={1}
+                        label="Hard (30 seconds)"
+                        style={{
+                          marginBottom: 16,
+                        }}
+                        disabled={this.state.mnemonic}
+                      />
+                      <RadioButton
+                        value={2}
+                        label="Brutal (1 Hour)"
+                        style={{
+                          marginBottom: 16,
+                        }}
+                        disabled={this.state.mnemonic}
+                      />
+                    </RadioButtonGroup>
+                  </div>
+                  {/* <div><Slider value={this.state.version} max={2} onChange={e => this.setState({ version: Number(e.target.value) })} step={1} /></div> */}
+                  {/* <div><input type="range" value={this.state.version} max={2} onChange={e => this.setState({ version: Number(e.target.value) })} /></div> */}
+                  <RaisedButton
+                    label={"Generate new seed"}
+                    onClick={this.generate}
+                    backgroundColor="#14A6B0"
+                    style={{ margin: 5 }}
+                    disabled={this.state.loading || !(this.state.salt && this.state.numberOfWords)}
+                  />
+                  <RaisedButton
+                    label={"Recover existing seed"}
+                    onClick={this.generate}
+                    backgroundColor="#14A6B0"
+                    style={{ margin: 5 }}
+                    disabled={this.state.loading || !(this.state.salt && this.state.mnemonicValid)}
+                  />
+                  {this.state.loading && <img style={{ width: 50 }} src={loading} />}
+                  {/* <div>{this.state.mnemonicDiv}</div>
           {this.state.xpub && <div><TextWithQRCode text={`Xpub:${this.state.xpub}`} qrText={this.state.xpub} /></div>}
           {addresses.length ? <div>Addresses:</div> : ''}
           {addresses} */}
+                </div>
               </div>
             </div>
             {this.state.addresses.length ? <hr /> : ''}

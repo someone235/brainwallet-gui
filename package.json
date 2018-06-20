@@ -1,5 +1,5 @@
 {
-  "homepage": "https://someone235.github.io/brainwallet-gui",
+  "homepage": "./",
   "name": "brainwallet-app",
   "version": "0.1.0",
   "private": true,
@@ -56,16 +56,13 @@
     "test": "node scripts/test.js --env=jsdom",
     "electron-dev": "cross-env ELECTRON_START_URL=http://localhost:3000 electron .",
     "dev": "nf start",
-    "electron": "electron .",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "electron": "electron ."
   },
   "devDependencies": {
     "cross-env": "^5.1.5",
     "electron": "^2.0.0",
     "electron-react-devtools": "^0.5.3",
-    "foreman": "^2.0.0",
-    "gh-pages": "^1.2.0"
+    "foreman": "^2.0.0"
   },
   "jest": {
     "collectCoverageFrom": [

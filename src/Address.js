@@ -5,11 +5,9 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import QRCode from 'qrcode.react';
-import brainwallet from 'brainwallet';
 
 
-
-// const brainwallet = window.require('brainwallet');
+const brainwallet = window.require('brainwallet');
 
 
 export default class extends Component {
