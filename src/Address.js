@@ -3,8 +3,9 @@ import eye from './img/eye_icon_round@2x.png';
 import TextWithQRCode from './TextWithQRCode';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
 import QRCode from 'qrcode.react';
+import { DERIVATIONS } from './constants';
+import bitcoin from 'bitcoinjs-lib';
 
 
 const brainwallet = window.require('brainwallet');
@@ -30,8 +31,37 @@ export default class extends Component {
   handleCancelConfirm = () => {
     this.setState({ openConfirm: false });
   };
+  getAddress = () => {
+    const { keypair, derivation } = this.props;
+    const network = bitcoin.networks.bitcoin;
+    const pubKey = keypair.getPublicKeyBuffer();
+    if (derivation === DERIVATIONS.BIP84) {
+      return brainwallet.toBech32(pubKey);
+    }
+    if (derivation === DERIVATIONS.BIP49) {
+      const pubKeyHash = bitcoin.crypto.hash160(pubKey)
+
+      const redeemScript = bitcoin.script.witnessPubKeyHash.output.encode(pubKeyHash);
+      const redeemScriptHash = bitcoin.crypto.hash160(redeemScript);
+
+      const scriptPubKey = bitcoin.script.scriptHash.output.encode(redeemScriptHash);
+      return bitcoin.address.fromOutputScript(scriptPubKey, network);
+    }
+    return bitcoin.address.toBase58Check(bitcoin.crypto.hash160(pubKey), network.pubKeyHash);
+  };
+  getWIFPrefix = () => {
+    const { derivation } = this.props;
+    switch (derivation) {
+      case DERIVATIONS.BIP84:
+        return 'p2wpkh:';
+      case DERIVATIONS.BIP49:
+        return 'p2wpkh-p2sh:';
+      default:
+        return '';
+    }
+  }
   render() {
-    const addr = brainwallet.toBech32(this.props.keypair.getPublicKeyBuffer());
+    const addr = this.getAddress();
     const actions = [
       <FlatButton
         label="Close"
@@ -51,7 +81,7 @@ export default class extends Component {
         onClick={this.handleCancelConfirm}
       />,
     ];
-    const privKey = `p2wpkh:${this.props.keypair.toWIF()}`;
+    const privKey = `${this.getWIFPrefix()}${this.props.keypair.toWIF()}`;
     return (
       <div key={addr} style={{ marginBottom: 10 }}>
         <Dialog
@@ -65,7 +95,7 @@ export default class extends Component {
           <div style={{
             textAlign: 'center'
           }}>
-            <div style={{ marginBottom: 10 }}><textarea rows={1} cols={60} disabled key={privKey}>{privKey}</textarea></div>
+            <div style={{ marginBottom: 10 }}><textarea rows={1} cols={65} disabled key={privKey}>{privKey}</textarea></div>
             <div><QRCode value={privKey} /></div>
           </div>
         </Dialog>

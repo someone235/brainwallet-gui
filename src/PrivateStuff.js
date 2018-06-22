@@ -66,7 +66,7 @@ export default class extends Component {
             <div style={{ fontSize: 30, fontWeight: 600, marginBottom: 10 }}>Salt</div>
             <div style={{ marginBottom: 50, fontSize: 18 }}>{this.props.salt}</div>
             {/* <div ><span style={{ fontSize: 30, fontWeight: 600 }}>Mnemonic</span>: {this.props.mnemonic}</div> */}
-            <div style={{ fontSize: 30, fontWeight: 600, marginBottom: 10 }}>ZPRV</div>
+            <div style={{ fontSize: 30, fontWeight: 600, marginBottom: 10 }}>Extended Private Key</div>
             <div style={{ marginBottom: 10 }}><textarea rows={2} cols={56} disabled key={this.props.xprv}>{this.props.xprv}</textarea></div>
             <div><QRCode value={this.props.xprv} /></div>
           </div>
@@ -89,8 +89,6 @@ export default class extends Component {
             backgroundColor="#14A6B0"
             style={{ margin: 10 }}
           />
-          {/* <img onClick={this.handleOpenConfirm} src={QRIcon} style={{ display: 'inline-block', marginLeft: 10, marginRight: 10, cursor: 'pointer' }} /> */}
-          {/* Click here to see mnemonic and zprv */}
         </div>
       </div>
     );

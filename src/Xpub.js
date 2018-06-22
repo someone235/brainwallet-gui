@@ -6,7 +6,7 @@ export default class extends Component {
     return (
       <div>
         <TextWithQRCode qrText={this.props.xpub}>
-          <span style={{ fontSize: 30, fontWeight: 600 }}>View ZPUB</span>
+          <span style={{ fontSize: 20, fontWeight: 600 }}>View Extended Public Key</span>
         </TextWithQRCode>
       </div>
     );

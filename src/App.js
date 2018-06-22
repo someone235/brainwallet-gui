@@ -35,19 +35,19 @@ class App extends Component {
     privKey = await bip39.mnemonicToSeed(bip39Mnemonic);
     this.setState({ loading: false });
     console.log('privKey', privKey.toString('hex'));
-    var m = HDNode.fromSeedHex(privKey.toString('hex'));
+    var hdKey = HDNode.fromSeedHex(privKey.toString('hex'));
     // console.log(privKey.toString('hex'));
-    console.log('xprv', m.toBase58());
-    console.log('xpub', m.neutered().toBase58());
-    const xpub = 'z' + m.neutered().toBase58().slice(1);
-    const xprv = 'z' + m.toBase58().slice(1);
+    console.log('xprv', hdKey.toBase58());
+    console.log('xpub', hdKey.neutered().toBase58());
+    const xpub = 'z' + hdKey.neutered().toBase58().slice(1);
+    const xprv = 'z' + hdKey.toBase58().slice(1);
     console.log('mnemonic', mnemonic);
-    const child = m.derivePath("m/84'/0'/0'/0");
+    const child = hdKey.derivePath("m/84'/0'/0'/0");
     const addresses = Array(10).fill('').map((_, i) => child.derive(i).keyPair/*.getPublicKeyBuffer()*/)/*.map(brainwallet.toBech32)*/;
     // for (let i = 0; i < 10; i++) {
     //   console.log(`address ${i + 1}`, child.derive(i).getAddress());
     // }
-    this.setState({ mnemonicDiv: mnemonic, addresses, xpub, xprv, bip39Mnemonic });
+    this.setState({ mnemonicDiv: mnemonic, addresses, xpub, xprv, bip39Mnemonic, hdPrivKey: privKey });
   };
   onMnemonicChange = e => {
     const mnemonic = e.target.value;
@@ -105,8 +105,6 @@ class App extends Component {
                       />
                     </RadioButtonGroup>
                   </div>
-                  {/* <div><Slider value={this.state.version} max={2} onChange={e => this.setState({ version: Number(e.target.value) })} step={1} /></div> */}
-                  {/* <div><input type="range" value={this.state.version} max={2} onChange={e => this.setState({ version: Number(e.target.value) })} /></div> */}
                   <RaisedButton
                     label={"Generate new seed"}
                     onClick={this.generate}
@@ -122,15 +120,11 @@ class App extends Component {
                     disabled={this.state.loading || !(this.state.salt && this.state.mnemonicValid)}
                   />
                   {this.state.loading && <img style={{ width: 50 }} src={loading} />}
-                  {/* <div>{this.state.mnemonicDiv}</div>
-          {this.state.xpub && <div><TextWithQRCode text={`Xpub:${this.state.xpub}`} qrText={this.state.xpub} /></div>}
-          {addresses.length ? <div>Addresses:</div> : ''}
-          {addresses} */}
                 </div>
               </div>
             </div>
             {this.state.addresses.length ? <hr /> : ''}
-            {this.state.addresses.length ? <Result salt={this.state.salt} xprv={this.state.xprv} mnemonicDiv={this.state.mnemonicDiv} bip39Mnemonic={this.state.bip39Mnemonic} xpub={this.state.xpub} addresses={this.state.addresses} /> : ''}
+            {this.state.addresses.length ? <Result hdPrivKey={this.state.hdPrivKey} salt={this.state.salt} xprv={this.state.xprv} mnemonicDiv={this.state.mnemonicDiv} bip39Mnemonic={this.state.bip39Mnemonic} xpub={this.state.xpub} addresses={this.state.addresses} /> : ''}
           </div>
         </div>
       </MuiThemeProvider>
