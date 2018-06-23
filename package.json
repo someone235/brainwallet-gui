@@ -3,7 +3,7 @@
   "name": "brainwallet-app",
   "version": "0.1.0",
   "private": true,
-  "main": "src/electron-starter.js",
+  "main": "app/main.js",
   "dependencies": {
     "autoprefixer": "7.1.6",
     "babel-core": "6.26.0",
@@ -54,6 +54,7 @@
     "whatwg-fetch": "2.0.3"
   },
   "scripts": {
+    "postinstall": "install-app-deps",
     "start": "cross-env BROWSER=none node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
@@ -62,11 +63,6 @@
     "electron": "electron .",
     "pack": "electron-builder --dir",
     "dist": "electron-builder"
-  },
-  "build": {
-    "directories": {
-      "buildResources": "./build"
-    }
   },
   "devDependencies": {
     "cross-env": "^5.1.5",
