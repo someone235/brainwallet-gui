@@ -59,8 +59,8 @@ export default class extends Component {
     // const root = hdKey.derivePath(path);
     // const rootHD = HDNode.fromSeedHex(root.keyPair.d.toString(16));
     const child = accountExtendedKey.derive(0);
-    const xpub = getExtendedPublicKey({ hdKey: accountExtendedKey, derivation });
-    const xprv = getExtendedPrivateKey({ hdKey: accountExtendedKey, derivation });
+    const xpub = getExtendedPublicKey(accountExtendedKey);
+    const xprv = getExtendedPrivateKey(accountExtendedKey);
     const addresses = Array(10).fill('').map((_, i) => child.derive(i).keyPair);
     const addressesComps = addresses.map((keypair, i) => {
       return (
@@ -112,22 +112,12 @@ export default class extends Component {
   }
 }
 
-function getExtendedPrivateKey({ hdKey, derivation }) {
-  return getExtendedKeyPrefix(derivation) + hdKey.toBase58().slice(1);
+function getExtendedPrivateKey(hdKey) {
+  return hdKey.toBase58();
 }
 
-function getExtendedPublicKey({ hdKey, derivation }) {
-  return getExtendedKeyPrefix(derivation) + hdKey.neutered().toBase58().slice(1);
-}
-
-function getExtendedKeyPrefix(derivation) {
-  if (derivation === DERIVATIONS.BIP84) {
-    return 'z';
-  }
-  if (derivation === DERIVATIONS.BIP49) {
-    return 'y';
-  }
-  return 'x';
+function getExtendedPublicKey(hdKey) {
+  return hdKey.neutered().toBase58();
 }
 
 function calcBip32ExtendedKey(path, bip32RootKey) {
