@@ -21,6 +21,7 @@
     "css-loader": "0.28.7",
     "dotenv": "4.0.0",
     "dotenv-expand": "4.2.0",
+    "electron-debug": "^2.0.0",
     "eslint": "4.10.0",
     "eslint-config-react-app": "^2.1.0",
     "eslint-loader": "1.9.0",
@@ -58,11 +59,19 @@
     "test": "node scripts/test.js --env=jsdom",
     "electron-dev": "cross-env ELECTRON_START_URL=http://localhost:3000 electron .",
     "dev": "nf start",
-    "electron": "electron ."
+    "electron": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "build": {
+    "directories": {
+      "buildResources": "./build"
+    }
   },
   "devDependencies": {
     "cross-env": "^5.1.5",
     "electron": "^2.0.0",
+    "electron-builder": "^20.15.1",
     "electron-react-devtools": "^0.5.3",
     "foreman": "^2.0.0"
   },
