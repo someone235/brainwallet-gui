@@ -56,13 +56,13 @@
   "scripts": {
     "postinstall": "install-app-deps",
     "start": "cross-env BROWSER=none node scripts/start.js",
-    "build": "node scripts/build.js",
+    "build": "node scripts/build.js && rm -rf ./cra_dist && mv ./build ./cra_dist",
     "test": "node scripts/test.js --env=jsdom",
     "electron-dev": "cross-env ELECTRON_START_URL=http://localhost:3000 electron .",
     "dev": "nf start",
     "electron": "electron .",
     "pack": "electron-builder --dir",
-    "dist": "electron-builder"
+    "dist": "WINEARCH=win64 electron-builder --win --x64"
   },
   "devDependencies": {
     "cross-env": "^5.1.5",
