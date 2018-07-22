@@ -110,7 +110,7 @@ class App extends Component {
                     onClick={this.generate}
                     backgroundColor="#14A6B0"
                     style={{ margin: 5 }}
-                    disabled={this.state.loading || !(this.state.salt && this.state.numberOfWords)}
+                    disabled={this.state.loading || !(this.state.salt && this.state.numberOfWords) || this.state.mnemonic}
                   />
                   <RaisedButton
                     label={"Recover existing seed"}

@@ -62,7 +62,7 @@
     "dev": "nf start",
     "electron": "electron .",
     "pack": "electron-builder --dir",
-    "dist": "WINEARCH=win64 electron-builder --win --x64"
+    "dist": "WINEARCH=win64 electron-builder"
   },
   "devDependencies": {
     "cross-env": "^5.1.5",
