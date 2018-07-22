@@ -9,7 +9,6 @@ import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 import Result from './Result';
 import loading from './img/loading.gif';
 import bip39 from 'bip39';
-const brainwallet = window.require('brainwallet');
 const brainseedUtils = window.require('brainseed-utils');
 const { HDNode } = require('bitcoinjs-lib');
 
@@ -52,7 +51,7 @@ class App extends Component {
   onMnemonicChange = e => {
     const mnemonic = e.target.value;
     try {
-      const { entropy, version } = brainwallet.mnemonicToEntropy(mnemonic);
+      const { entropy, version } = brainseedUtils.mnemonicToEntropy(mnemonic);
       this.setState({ mnemonic, version: version[0], mnemonicValid: true });
     } catch (e) {
       this.setState({ mnemonic, mnemonicValid: false });

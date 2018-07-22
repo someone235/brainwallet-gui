@@ -69,6 +69,7 @@
     "electron": "^2.0.0",
     "electron-builder": "^20.15.1",
     "electron-react-devtools": "^0.5.3",
+    "electron-rebuild": "^1.8.1",
     "foreman": "^2.0.0"
   },
   "jest": {
